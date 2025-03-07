@@ -1,17 +1,12 @@
 import os
 import sys
-
-# Ensure Python recognizes the src module
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 import tkinter as tk
-from tkinter import filedialog
+from tkinter import filedialog, Label, Button, Frame
 from PIL import Image, ImageTk
 from src.predict import predict_image
-
 
 # Ensure Python recognizes the src module
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
@@ -21,38 +16,70 @@ class ImageClassifierApp:
     def __init__(self, root):
         self.root = root
         self.root.title("AI Image Classifier")
-        self.root.geometry("500x600")
-        self.root.configure(bg="white")
+        self.root.geometry("600x700")
+        self.root.configure(bg="#f4f4f4")  # Light gray background
 
-        # Title Label
-        self.label = tk.Label(
-            root, text="AI Image Recognition", font=("Arial", 16, "bold"), bg="white"
-        )
-        self.label.pack(pady=10)
-
-        # Button to select image
-        self.upload_btn = tk.Button(
+        # Header Label
+        title_label = Label(
             root,
-            text="Select Image",
+            text="🔍 AI Image Recognition",
+            font=("Arial", 20, "bold"),
+            bg="#f4f4f4",
+            fg="#333",
+        )
+        title_label.grid(row=0, column=0, columnspan=2, pady=10, padx=20)
+
+        # Frame for image display
+        self.image_frame = Frame(root, bg="white", bd=2, relief="solid")
+        self.image_frame.grid(row=1, column=0, columnspan=2, pady=10, padx=20)
+
+        self.image_label = Label(self.image_frame, bg="white")
+        self.image_label.pack()
+
+        # Prediction Label
+        self.prediction_label = Label(
+            root,
+            text="Prediction: ",
+            font=("Arial", 14, "bold"),
+            bg="#f4f4f4",
+            fg="black",
+        )
+        self.prediction_label.grid(row=2, column=0, columnspan=2, pady=10)
+
+        # Buttons Frame
+        button_frame = Frame(root, bg="#f4f4f4")
+        button_frame.grid(row=3, column=0, columnspan=2, pady=10)
+
+        # Select Image Button
+        self.upload_btn = Button(
+            button_frame,
+            text="📂 Select Image",
             command=self.upload_image,
             font=("Arial", 12),
             bg="#3498db",
             fg="white",
+            padx=15,
+            pady=5,
+            relief="raised",
         )
-        self.upload_btn.pack(pady=10)
+        self.upload_btn.grid(row=0, column=0, padx=10, pady=5)
 
-        # Label for image display
-        self.image_label = tk.Label(root, bg="white")
-        self.image_label.pack(pady=10)
-
-        # Prediction Label
-        self.prediction_label = tk.Label(
-            root, text="", font=("Arial", 14, "bold"), bg="white", fg="black"
+        # Exit Button
+        self.exit_btn = Button(
+            button_frame,
+            text="❌ Exit",
+            command=root.quit,
+            font=("Arial", 12),
+            bg="#e74c3c",
+            fg="white",
+            padx=15,
+            pady=5,
+            relief="raised",
         )
-        self.prediction_label.pack(pady=10)
+        self.exit_btn.grid(row=0, column=1, padx=10, pady=5)
 
     def upload_image(self):
-        """Opens file dialog, allows user to select image, and displays prediction."""
+        """Opens file dialog, allows user to select an image, and displays prediction."""
         file_path = filedialog.askopenfilename(
             filetypes=[("Image Files", "*.jpg;*.png;*.jpeg")]
         )
@@ -64,7 +91,7 @@ class ImageClassifierApp:
 
         # Display Image
         image = Image.open(file_path)
-        image = image.resize((300, 300))  # Resize for display
+        image = image.resize((350, 350))  # Resize for display
         img = ImageTk.PhotoImage(image)
 
         self.image_label.config(image=img)
