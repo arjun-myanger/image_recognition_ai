@@ -42,22 +42,6 @@ python src/main.py
 
 ---
 
-## 📂 Project Structure
-```
-image_recognition_ai/   # Root project folder
-│── models/             # (Optional) Trained models (if added later)
-│── images/             # Sample test images
-│── src/                # Main source code
-│   │── main.py         # Runs the GUI app
-│   │── predict.py      # Handles AI model loading and predictions
-│   │── preprocess.py   # Handles image preprocessing
-│── requirements.txt    # Project dependencies
-│── README.md           # Documentation (this file)
-│── .gitignore          # Ignore unnecessary files
-```
-
----
-
 ## 📸 Screenshots (Optional)
 If you want to add screenshots, upload them to your repository and embed them like this:
 ```md
